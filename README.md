@@ -21,7 +21,7 @@ It uses the [chatgpt](https://github.com/transitive-bullshit/chatgpt-api) Node.j
 
 # Screenshot
 
-![Screenshot](https://github.com/ShiranAbir/chaty/releases/blob/public/screenshot.jpg?raw=true)
+![Screenshot](https://github.com/ShiranAbir/chaty/raw/main/public/screenshot.jpg)
 
 # Download
 
