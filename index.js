@@ -4,8 +4,7 @@ import { getAnswer, getSpeechUrl } from '@/services/chatService.ts'
 const store = createStore({
     state: {
         messages: [],
-        lastId: 1,
-        isSoundOn: false
+        lastId: 1
     },
     mutations: {
         addMessage(state, { message }) {
@@ -14,9 +13,6 @@ const store = createStore({
         advanceId(state) {
             state.lastId++
         },
-        toggleSound(state){
-            state.isSoundOn = !state.isSoundOn
-        }
     },
     getters: {
         messages({ messages }) {
@@ -26,9 +22,6 @@ const store = createStore({
         lastId({ lastId }) {
             return lastId
         },
-        isSoundOn({isSoundOn}){
-            return isSoundOn
-        }
     },
     actions: {
         async loadAnswer({ commit, getters }, param) {
@@ -40,14 +33,10 @@ const store = createStore({
             message = {id: getters.lastId, type: 'answer', txt:answer}
             commit({ type: 'addMessage', message })
             commit({ type: 'advanceId', message })
-            const isSoundOn = getters.isSoundOn
-            return { answer, isSoundOn }
+            return message
         },
         async getSpeechUrl({commit}, param) {
-            return await getSpeechUrl(param.answer)
-        },
-        toggleSound({commit}){
-            commit({ type: 'toggleSound' })
+            return await getSpeechUrl(param.text)
         }
     },
 })

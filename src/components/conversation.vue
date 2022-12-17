@@ -22,13 +22,26 @@ export default {
         }
     },
     methods:{
-      onAskQuestion(){
+      async onAskQuestion(){
         const question = this.question
-
-        this.$store.dispatch({ type: 'loadAnswer', question })
+        this.question = ''
         this.messages = this.$store.getters.messages
 
-        this.question = ''
+        await this.$store.dispatch({ type: 'loadAnswer', question }).then(async ({answer, isSoundOn}: {answer: string, isSoundOn: boolean}) => {
+          if (!isSoundOn) return
+
+          await this.$store.dispatch({ type: 'getSpeechUrl', answer })
+            .then(async (results:{shortText: string, url:string}[]) => {
+              for (const result of results) {
+                const audio = new Audio(result.url)
+                await new Promise(res=>{
+                  audio.play()
+                  audio.onended = res
+                })
+              }              
+            })
+        })
+        
       }
     },
 }
