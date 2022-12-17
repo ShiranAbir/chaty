@@ -27,9 +27,10 @@ export async function chatgpt(message) {
 }
 
 export function getSpeechUrl(text) {
-    return googleTTS.getAudioUrl(text, {
+    return googleTTS.getAllAudioUrls(text, {
         lang: 'en',
         slow: false,
         host: 'https://translate.google.com',
+        splitPunct: ',.?',
     })
 }
