@@ -36,8 +36,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: samuelmeuli/action-snapcraft@v1.2.0
         continue-on-error: true
-        with:
-          run: npm install --save-dev electron-installer-debian
+      - name: Install Electron deb builder for Ubuntu
+        # Only install Snapcraft on Ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: npm install --save-dev electron-installer-debian
       - name: Install dependencies
         run: npm install
       - name: Make
