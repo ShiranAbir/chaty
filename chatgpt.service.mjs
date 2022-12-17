@@ -1,5 +1,6 @@
 import { ChatGPTAPIBrowser, ChatGPTConversation } from 'chatgpt'
 import { app, dialog } from 'electron'
+import * as googleTTS from 'google-tts-api'
 
 var conversation = null;
 export async function chatgpt_init() {
@@ -23,4 +24,12 @@ export async function chatgpt(message) {
     )
 
     return response
+}
+
+export function getSpeechUrl(text) {
+    return googleTTS.getAudioUrl(text, {
+        lang: 'en',
+        slow: false,
+        host: 'https://translate.google.com',
+    })
 }
