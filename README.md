@@ -1,4 +1,6 @@
-# Intro
+<img src="https://github.com/ShiranAbir/chaty/raw/main/public/screenshot.jpg" width="500" alt="Screenshot">
+
+# Chaty
 
 Chaty is an Electron bot that you can to interact with [ChatGPT](https://chat.openai.com/chat).
 
@@ -18,10 +20,6 @@ It uses the [chatgpt](https://github.com/transitive-bullshit/chatgpt-api) Node.j
 2. When opened, it'll use your credentials to login, but will fail the reCaptcha.  
 3. Solve the reCaptcha manually and click `Continue` and it'll finish the rest.  
 4. Then you can use the the `Electron` window and ask `ChatGPT` questions!
-
-# Screenshot
-
-![Screenshot](https://github.com/ShiranAbir/chaty/raw/main/public/screenshot.jpg)
 
 # Download
 
