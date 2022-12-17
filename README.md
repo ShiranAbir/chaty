@@ -1,4 +1,6 @@
-<img src="https://github.com/ShiranAbir/chaty/raw/main/public/screenshot.jpg" width="500" alt="Screenshot">
+![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)  
+Demo Video:  
+<a href="https://www.youtube.com/watch?v=qL2rG4NtMAY"><img src="https://github.com/ShiranAbir/chaty/raw/main/public/screenshot.jpg" width="500" alt="Screenshot"></a> 
 
 # Chaty
 
