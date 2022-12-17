@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         # Build for supported platforms
-        os: [ windows-latest ]
+        os: [ macOS-latest, ubuntu-latest,windows-latest ]
         arch: [ x64, arm64 ]
         include:
         - os: windows-latest
@@ -36,6 +36,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: samuelmeuli/action-snapcraft@v1.2.0
         continue-on-error: true
+        run: npm install --save-dev electron-installer-debian
       - name: Install dependencies
         run: npm install
       - name: Make
