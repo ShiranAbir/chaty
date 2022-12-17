@@ -8,7 +8,6 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['win32'],
     },
     {
       name: '@electron-forge/maker-deb',
@@ -20,10 +19,6 @@ module.exports = {
       config: {
         format: 'ULFO'
       },
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
     },
   ],
 };
