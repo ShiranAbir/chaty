@@ -18,8 +18,6 @@ jobs:
         include:
         - os: windows-latest
           arch: ia32
-        - os: ubuntu-latest
-          arch: armv7l
         # Publishing artifacts for multiple Windows architectures has
         # a bug which can cause the wrong architecture to be downloaded
         # for an update, so until that is fixed, only build Windows x64
