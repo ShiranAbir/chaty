@@ -2,7 +2,7 @@
 
 # Chaty
 
-Chaty is an Electron bot that you can to interact with [ChatGPT](https://chat.openai.com/chat).
+Chaty is an Electron bot that you can use to interact with [ChatGPT](https://chat.openai.com/chat).
 
 It uses the [chatgpt](https://github.com/transitive-bullshit/chatgpt-api) Node.js package under the hood.
 
