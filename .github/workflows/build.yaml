@@ -36,7 +36,8 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: samuelmeuli/action-snapcraft@v1.2.0
         continue-on-error: true
-        run: npm install --save-dev electron-installer-debian
+        with:
+          run: npm install --save-dev electron-installer-debian
       - name: Install dependencies
         run: npm install
       - name: Make
