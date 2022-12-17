@@ -33,7 +33,11 @@ jobs:
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 18.x
-          cache: npm
+      - name: Install Snapcraft for Ubuntu
+        # Only install Snapcraft on Ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        uses: samuelmeuli/action-snapcraft@v1.2.0
+        continue-on-error: true
       - name: Install dependencies
         run: npm install
       - name: Make
