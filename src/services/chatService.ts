@@ -14,14 +14,21 @@ async function getAnswer(question: string) : Promise<string>{
     })
 }
 
-// async function getAnswer(question: string) : Promise<string>{
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve('hi shiran ' + question);
-//     }, 3000);
-//   });
-// }
+async function getSpeechUrl(text: string) : Promise<string>{
+  return await axios
+    .post(`http://127.0.0.1:3000/speech`, {
+      text
+    })
+    .then((response) => {
+      console.log(response)
+      return response.data
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
 
 export{
-  getAnswer
+  getAnswer,
+  getSpeechUrl
 }

@@ -1,10 +1,11 @@
 import { createStore } from "vuex"
-import { getAnswer } from '@/services/chatService.ts'
+import { getAnswer, getSpeechUrl } from '@/services/chatService.ts'
 
 const store = createStore({
     state: {
         messages: [],
-        lastId: 1
+        lastId: 1,
+        isSoundOn: false
     },
     mutations: {
         addMessage(state, { message }) {
@@ -13,6 +14,9 @@ const store = createStore({
         advanceId(state) {
             state.lastId++
         },
+        toggleSound(state){
+            state.isSoundOn = !state.isSoundOn
+        }
     },
     getters: {
         messages({ messages }) {
@@ -35,6 +39,12 @@ const store = createStore({
             commit({ type: 'advanceId', message })
             return message
         },
+        async getSpeechUrl({commit}, param) {
+            return await getSpeechUrl(param.text)
+        },
+        toggleSound({commit}){
+            commit({ type: 'toggleSound' })
+        }
     },
 })
 

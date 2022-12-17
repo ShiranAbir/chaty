@@ -4,8 +4,8 @@
 </template>
 
 <script lang="ts">
-import appHeader from '../components/header.vue'
-import conversation from '../components/conversation.vue'
+import appHeader from '@/components/header.vue'
+import conversation from '@/components/conversation.vue'
 export default {
 
     data(){

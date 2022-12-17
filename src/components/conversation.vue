@@ -22,7 +22,16 @@ export default {
         }
     },
     methods:{
-      onAskQuestion(){
+      async onAskQuestion(){
+        // const text = 'hi how are you?'
+        // await this.$store.dispatch({ type: 'getSpeechUrl', text })
+        //   .then((result:string) => {
+        //     console.log(result)
+
+        //     const audio = new Audio(result)
+        //     audio.play()
+        //   })        
+          
         const question = this.question
 
         this.$store.dispatch({ type: 'loadAnswer', question })

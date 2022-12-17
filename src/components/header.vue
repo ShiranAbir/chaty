@@ -4,6 +4,9 @@
         <div class="logo">
             <p>Chaty</p>
         </div>
+        <div class="button-container">
+            <button @click="toggleSound">Sound</button>
+        </div>
     </div>
   </div>
 </template>
@@ -15,11 +18,13 @@ export default {
     },
     data(){
         return{
-
         }
     },
     
     methods:{
+        toggleSound(){
+            this.$store.dispatch({ type: 'toggleSound'}) 
+        }
     }
 }
 
