@@ -6,7 +6,6 @@ async function getAnswer(question: string) : Promise<string>{
       question
     })
     .then((response) => {
-      console.log(response)
       return response.data
     })
     .catch((error) => {
@@ -20,7 +19,6 @@ async function getSpeechUrl(text: string) : Promise<string>{
       text
     })
     .then((response) => {
-      console.log(response)
       return response.data
     })
     .catch((error) => {

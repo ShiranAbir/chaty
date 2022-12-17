@@ -26,6 +26,9 @@ const store = createStore({
         lastId({ lastId }) {
             return lastId
         },
+        isSoundOn({isSoundOn}){
+            return isSoundOn
+        }
     },
     actions: {
         async loadAnswer({ commit, getters }, param) {
@@ -37,10 +40,11 @@ const store = createStore({
             message = {id: getters.lastId, type: 'answer', txt:answer}
             commit({ type: 'addMessage', message })
             commit({ type: 'advanceId', message })
-            return message
+            const isSoundOn = getters.isSoundOn
+            return { answer, isSoundOn }
         },
         async getSpeechUrl({commit}, param) {
-            return await getSpeechUrl(param.text)
+            return await getSpeechUrl(param.answer)
         },
         toggleSound({commit}){
             commit({ type: 'toggleSound' })

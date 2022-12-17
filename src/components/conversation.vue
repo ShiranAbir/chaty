@@ -23,21 +23,25 @@ export default {
     },
     methods:{
       async onAskQuestion(){
-        // const text = 'hi how are you?'
-        // await this.$store.dispatch({ type: 'getSpeechUrl', text })
-        //   .then((result:string) => {
-        //     console.log(result)
-
-        //     const audio = new Audio(result)
-        //     audio.play()
-        //   })        
-          
         const question = this.question
-
-        this.$store.dispatch({ type: 'loadAnswer', question })
+        this.question = ''
         this.messages = this.$store.getters.messages
 
-        this.question = ''
+        await this.$store.dispatch({ type: 'loadAnswer', question }).then(async ({answer, isSoundOn}: {answer: string, isSoundOn: boolean}) => {
+          if (!isSoundOn) return
+
+          await this.$store.dispatch({ type: 'getSpeechUrl', answer })
+            .then(async (results:{shortText: string, url:string}[]) => {
+              for (const result of results) {
+                const audio = new Audio(result.url)
+                await new Promise(res=>{
+                  audio.play()
+                  audio.onended = res
+                })
+              }              
+            })
+        })
+        
       }
     },
 }

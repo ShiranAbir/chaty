@@ -5,7 +5,7 @@
             <p>Chaty</p>
         </div>
         <div class="button-container">
-            <button @click="toggleSound">Sound</button>
+            <button :class="getSoundClass" @click="toggleSound">Sound</button>
         </div>
     </div>
   </div>
@@ -18,12 +18,20 @@ export default {
     },
     data(){
         return{
+            isSoundOn: false
         }
     },
     
     methods:{
         toggleSound(){
+            this.isSoundOn = !this.isSoundOn
             this.$store.dispatch({ type: 'toggleSound'}) 
+        }
+    },
+    computed:{
+        getSoundClass():string{
+            const soundClass = this.isSoundOn ? 'active' : 'non-active'
+            return soundClass
         }
     }
 }
