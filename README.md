@@ -10,8 +10,8 @@ It uses the [chatgpt](https://github.com/transitive-bullshit/chatgpt-api) Node.j
 1. Register your account on [ChatGPT](https://chat.openai.com/auth/login) (make sure to register a normal account and don't use Google/Microsoft).
 2. Then set your credentials so the app can use it:  
 2.1 Open an elevated command line and run the following (change `examplemail` and `examplepass` to yours):  
-2.2 setx OPENAI_EMAIL examplemail /m  
-2.3 setx OPENAI_PASSWORD examplepass /m
+2.2 `setx OPENAI_EMAIL examplemail /m`  
+2.3 `setx OPENAI_PASSWORD examplepass /m`
 
 ## Running
 1. Open the `chaty.exe` file.  
