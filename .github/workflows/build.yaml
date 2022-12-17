@@ -1,0 +1,74 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }} - ${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Build for supported platforms
+        os: [ macOS-latest, ubuntu-latest, windows-latest ]
+        arch: [ x64, arm64 ]
+        include:
+        - os: windows-latest
+          arch: ia32
+        - os: ubuntu-latest
+          arch: armv7l
+        # Publishing artifacts for multiple Windows architectures has
+        # a bug which can cause the wrong architecture to be downloaded
+        # for an update, so until that is fixed, only build Windows x64
+        exclude:
+        - os: windows-latest
+          arch: arm64
+
+    steps:
+      - uses: actions/checkout@v3.2.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 18.x
+          cache: npm
+      - name: Set MacOS signing certs
+        if: matrix.os == 'macOS-latest'
+        run: chmod +x tools/add-macos-cert.sh && ./tools/add-macos-cert.sh
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+      - name: Set Windows signing certificate
+        if: matrix.os == 'windows-latest'
+        continue-on-error: true
+        id: write_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'win-certificate.pfx'
+          encodedString: ${{ secrets.WINDOWS_CODESIGN_P12 }}
+      - name: Install dependencies
+        run: npm install
+      - name: Make
+        run: npm run make
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WINDOWS_CODESIGN_FILE: ${{ steps.write_file.outputs.filePath }}
+          WINDOWS_CODESIGN_PASSWORD: ${{ secrets.WINDOWS_CODESIGN_PASSWORD }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          files: |
+            out/**/*.deb
+            out/**/*.dmg
+            out/**/*setup*.exe
+            out/**/*.nupkg
+            out/**/*.rpm
+            out/**/*.zip
+            out/**/RELEASES
