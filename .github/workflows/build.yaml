@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         # Build for supported platforms
-        os: [ macOS-latest, ubuntu-latest, windows-latest ]
+        os: [ windows-latest ]
         arch: [ x64, arm64 ]
         include:
         - os: windows-latest
