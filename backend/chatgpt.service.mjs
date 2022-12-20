@@ -1,8 +1,10 @@
-import { ChatGPTAPIBrowser, ChatGPTConversation } from 'chatgpt'
+import { ChatGPTAPIBrowser } from 'chatgpt'
 import { app, dialog } from 'electron'
 import * as googleTTS from 'google-tts-api'
 
-var conversation = null;
+var chatApi = null
+var conversationId = null
+var parentMessageId = null
 export async function chatgpt_init() {
     if (!process.env.OPENAI_EMAIL || !process.env.OPENAI_PASSWORD){
         dialog.showMessageBoxSync({message:"Please set Email and Password first!"})
@@ -14,16 +16,29 @@ export async function chatgpt_init() {
         email: process.env.OPENAI_EMAIL,
         password: process.env.OPENAI_PASSWORD,
       })
-    await api.init()
-    conversation = new ChatGPTConversation(api)
+    await api.initSession()
+
+    chatApi = api
 }
 
 export async function chatgpt(message) {
-    const response = await conversation.sendMessage(
-        message
-    )
+    var res = null
+    if (!conversationId) {
+        res = await chatApi.sendMessage(message)
+    } else {
+        res = await chatApi.sendMessage(
+            message,
+            {
+                conversationId: conversationId,
+                parentMessageId: parentMessageId
+            }
+        )
+    }
 
-    return response
+    conversationId = res.conversationId
+    parentMessageId = res.messageId
+
+    return res.response
 }
 
 export function getSpeechUrl(text) {
