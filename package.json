@@ -5,7 +5,7 @@
   "description": "Chaty is an Electron bot that you can use to interact with ChatGPT",
   "author": "Shiran Abir",
   "repository": "ShiranAbir/chaty",
-  "main": "main.ts",
+  "main": "backend/main.ts",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
