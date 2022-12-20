@@ -18,6 +18,7 @@
     "make": "electron-forge make"
   },
   "dependencies": {
+    "@types/marked": "^4.0.8",
     "app-env": "^1.0.1",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
@@ -29,6 +30,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.18.2",
     "google-tts-api": "^2.0.2",
+    "marked": "^4.2.4",
     "pump": "^3.0.0",
     "puppeteer": "^19.4.0",
     "puppeteer-extra-plugin-stealth": "^2.11.1",
