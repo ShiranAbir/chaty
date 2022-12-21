@@ -3,7 +3,7 @@
     <div class="conversation-container">
       <div v-if="messages" class="messages-holder"> 
         <div v-for="message in messages" :key="message.id" class="message-holder" :class="{'question-holder': message.type === 'question', 'answer-holder': message.type === 'answer'}">
-          <div class="text-container">{{message.txt}}</div>
+          <div class="text-container" v-html="markdownToHtml(message.txt)"></div>
         </div>  
       </div>
     </div>
@@ -14,12 +14,24 @@
 </template>
 
 <script lang="ts">
+import { marked } from 'marked'
+
+import 'highlight.js/styles/stackoverflow-dark.css'
+import hljs from 'highlight.js'
 export default {
     data(){
         return{
             question: '',
             messages:[ {id:1, type: 'question', txt:'Try me :)'} ]
         }
+    },
+    created(){
+      marked.setOptions({
+        highlight: function(code, lang) {
+          return hljs.highlightAuto(code).value
+        },
+        langPrefix: 'hljs language-',
+      })
     },
     methods:{
       async onAskQuestion(){
@@ -42,6 +54,9 @@ export default {
             })
         })
         
+      },
+      markdownToHtml(txt:string):string{
+        return marked.parse(txt)
       }
     },
 }
