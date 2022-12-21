@@ -15,12 +15,23 @@
 
 <script lang="ts">
 import { marked } from 'marked'
+
+import 'highlight.js/styles/stackoverflow-dark.css'
+import hljs from 'highlight.js'
 export default {
     data(){
         return{
             question: '',
             messages:[ {id:1, type: 'question', txt:'Try me :)'} ]
         }
+    },
+    created(){
+      marked.setOptions({
+        highlight: function(code, lang) {
+          return hljs.highlightAuto(code).value
+        },
+        langPrefix: 'hljs language-',
+      })
     },
     methods:{
       async onAskQuestion(){
