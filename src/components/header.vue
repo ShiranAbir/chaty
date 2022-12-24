@@ -7,21 +7,23 @@
         <div class="button-container">
             <button :class="getSoundClass" @click="toggleSound">Sound</button>
         </div>
+        
+        <settingsMenu />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import settingsMenu from '@/components/settings.vue'
 export default {
-    props: {
-        person: Object,
-    },
     data(){
         return{
             isSoundOn: false
         }
     },
-    
+    components: {
+        settingsMenu
+    },
     methods:{
         toggleSound(){
             this.isSoundOn = !this.isSoundOn
