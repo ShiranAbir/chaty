@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, protocol, BrowserWindow, ipcMain } = require('electron')
+const { app, protocol, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const path = require('path')
 
 require('./server')
@@ -15,7 +15,7 @@ const createWindow = () => {
     width: 1024,
     height: 920,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.ts'),
+      preload: path.join(__dirname, 'preload.ts')
     }
   })
 
@@ -37,13 +37,24 @@ app.whenReady().then(() => {
 
 
   ipcMain.on('electron-store-set', (event, key, value) => {
+    // Encrypt password using safeStorage
+    if (value.password && safeStorage.isEncryptionAvailable()) {
+      value.password = safeStorage.encryptString(value.password).toString('base64')
+    }
+
     store.set(key, value)
 
     event.sender.send('asynchronous-result', true)
   })
 
   ipcMain.on('electron-store-get', (event, key) => {
-    event.sender.send('asynchronous-result', store.get(key))
+    const value = store.get(key)
+    // Decrypt password using safeStorage
+    if (value.password && safeStorage.isEncryptionAvailable()) {
+      value.password = safeStorage.decryptString(Buffer.from(value.password, 'base64'))
+    }
+
+    event.sender.send('asynchronous-result', value)
   })
 })
 

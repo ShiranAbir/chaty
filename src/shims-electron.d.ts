@@ -3,7 +3,7 @@
 export type ContextBridgeApi = {
     // Declare a `send` function that will return a promise. This promise
     // will contain the result from the main process.
-    send: (channel:string, ...key:any[]) => Promise
+    send: (channel:string, key:string, value?) => Promise
   }
   
 declare global {

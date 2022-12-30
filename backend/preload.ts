@@ -18,7 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
     send: (channel, key, value) => {
       let validChannels = ['electron-store-set', 'electron-store-get']
       if (validChannels.includes(channel)) {
-        ipcRenderer.send(channel, key, value)
+        if (typeof(value) !== 'undefined') ipcRenderer.send(channel, key, value)
+        else ipcRenderer.send(channel, key)
       }
 
       return new Promise((resolve) => {
