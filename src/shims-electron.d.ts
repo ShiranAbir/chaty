@@ -1,4 +1,4 @@
-export type settingsType = {username: string, password: string, accountType: string, shouldRead: boolean}
+type settingsType = {username: string, password: string, accountType: string, shouldRead: boolean}
 
 // Create a type that should contain all the data we need to expose in the
 // renderer process using `contextBridge`.
