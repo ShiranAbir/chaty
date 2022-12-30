@@ -1,8 +1,12 @@
 // Modules to control application life and create native browser window
-const { app, protocol, BrowserWindow } = require('electron')
+const { app, protocol, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 require('./server')
+const Store = require('electron-store');
+
+//defined the store
+let store = new Store();
 
 const createWindow = () => {
   // Create the browser window.
@@ -11,7 +15,7 @@ const createWindow = () => {
     width: 1024,
     height: 920,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.ts')
+      preload: path.join(__dirname, 'preload.ts'),
     }
   })
 
@@ -29,6 +33,17 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+
+  ipcMain.on('electron-store-set', (event, key, value) => {
+    store.set(key, value)
+
+    event.sender.send('asynchronous-result', true)
+  })
+
+  ipcMain.on('electron-store-get', (event, key) => {
+    event.sender.send('asynchronous-result', store.get(key))
   })
 })
 
