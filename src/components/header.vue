@@ -15,14 +15,9 @@
 export default {
     data(){
         return{
-            isSoundOn: false,
         }
     },
     methods:{
-        toggleSound(){
-            this.isSoundOn = !this.isSoundOn
-            this.$store.dispatch({ type: 'toggleSound'}) 
-        }
     },
     computed:{
     }
