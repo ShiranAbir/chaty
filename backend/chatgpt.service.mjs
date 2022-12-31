@@ -5,16 +5,17 @@ import * as googleTTS from 'google-tts-api'
 var chatApi = null
 var conversationId = null
 var parentMessageId = null
-export async function chatgpt_init() {
-    if (!process.env.OPENAI_EMAIL || !process.env.OPENAI_PASSWORD){
-        dialog.showMessageBoxSync({message:"Please set Email and Password first!"})
+export async function chatgpt_init(settings) {
+    let isGoogleLogin = false
+    let isMicrosoftLogin = false
+    if (settings.accountType == 'Google') isGoogleLogin = true
+    if (settings.accountType == 'Microsoft') isMicrosoftLogin = true
 
-        app.quit()
-        return
-    }
     const api = new ChatGPTAPIBrowser({
-        email: process.env.OPENAI_EMAIL,
-        password: process.env.OPENAI_PASSWORD,
+        email: settings.username,
+        password: settings.password,
+        isGoogleLogin: isGoogleLogin,
+        isMicrosoftLogin: isMicrosoftLogin
       })
     await api.initSession()
 

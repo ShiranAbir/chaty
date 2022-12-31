@@ -23,7 +23,7 @@
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "bootstrap-vue-3": "^0.4.15",
-    "chatgpt": "^3.3.1",
+    "chatgpt": "^3.3.8",
     "clone-deep": "^4.0.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",

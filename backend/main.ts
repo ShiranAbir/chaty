@@ -48,7 +48,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on('electron-store-get', (event, key) => {
-    const value = store.get(key)
+    const value = store.get(key, {})
     // Decrypt password using safeStorage
     if (value.password && safeStorage.isEncryptionAvailable()) {
       value.password = safeStorage.decryptString(Buffer.from(value.password, 'base64'))

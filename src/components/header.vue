@@ -5,24 +5,19 @@
             <p>Chaty</p>
         </div>
         <div class="button-container">
+            <button @click="$emit('showSettings', true)">Settings</button>
             <button :class="getSoundClass" @click="toggleSound">Sound</button>
         </div>
-        
-        <settingsMenu />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import settingsMenu from '@/components/settings.vue'
 export default {
     data(){
         return{
-            isSoundOn: false
+            isSoundOn: false,
         }
-    },
-    components: {
-        settingsMenu
     },
     methods:{
         toggleSound(){

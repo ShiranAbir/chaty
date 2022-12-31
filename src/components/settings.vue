@@ -1,7 +1,6 @@
 <template>
   <div>
-      <b-button @click="showModal=!showModal">Settings</b-button>
-      <b-modal v-model="showModal" id="settingsMenu" title="Settings" ok-title="Save" @ok="handleOk">
+      <b-modal v-model="showModal" id="settingsMenu" title="Settings" ok-title="Save" @hide="$emit('settingsClosed')" @ok="handleOk">
     <b-form-group
       id="fieldset-horizontal"
       label-cols="2"
@@ -51,6 +50,9 @@
 
 <script lang="ts">
 export default {
+    props: {
+      showSettings: Boolean
+    },
     data(){
         return{
           showModal: false,
@@ -60,11 +62,35 @@ export default {
           shouldRead: false
         }
     },
-    
+    async created() {
+      // Load settings from electron store
+      const settings = await window.ipcRenderer.send('electron-store-get', 'settings')
+      if (!settings.username) return
+
+      this.username = settings.username
+      this.password = settings.password
+      this.accountType = settings.accountType
+      this.shouldRead = settings.shouldRead
+    },
     methods:{
-      handleOk() {
-        console.log('OK!')
+      async handleOk() {
+        const settings = {
+          username: this.username,
+          password: this.password,
+          accountType: this.accountType,
+          shouldRead: this.shouldRead
+        }
+
+        await window.ipcRenderer.send('electron-store-set', 'settings', settings)
       },
+    },
+    watch: {
+      showSettings: {
+        handler(newValue, oldValue) {
+          this.showModal = newValue
+        },
+        immediate: true
+      }
     },
     computed:{
     }

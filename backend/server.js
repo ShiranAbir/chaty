@@ -4,13 +4,14 @@ const app = express();
 const port = 3000;
 
 var chatgptFunc = null;
+var chatgptInitFunc = null;
 var speechFunc = null;
 // need to import es module dynamically
 import('./chatgpt.service.mjs').then(chatgpt =>
   {
     chatgptFunc = chatgpt.chatgpt
+    chatgptInitFunc = chatgpt.chatgpt_init
     speechFunc = chatgpt.getSpeechUrl
-    chatgpt.chatgpt_init()
   }
 );
 
@@ -18,7 +19,16 @@ app.use(compression())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/", async function (req, res) {
+app.post("/init", async function (req, res) {
+  if (!chatgptFunc){
+    res.send("Backend isn't ready yet!")
+    return
+  }
+
+  res.send(await chatgptInitFunc(req.body));
+});
+
+app.post("/ask", async function (req, res) {
   if (!chatgptFunc){
     res.send("Backend isn't ready yet!")
     return
