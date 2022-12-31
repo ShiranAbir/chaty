@@ -59,7 +59,8 @@ export default {
           username: '',
           password: '',
           accountType: 'Normal',
-          shouldRead: false
+          shouldRead: false,
+          settingsChanged: false
         }
     },
     async created() {
@@ -71,6 +72,10 @@ export default {
       this.password = settings.password
       this.accountType = settings.accountType
       this.shouldRead = settings.shouldRead
+
+      this.$watch('username', () => { this.settingsChanged = true })
+      this.$watch('password', () => { this.settingsChanged = true})
+      this.$watch('accountType', () => { this.settingsChanged = true})
     },
     methods:{
       async handleOk() {
@@ -82,6 +87,10 @@ export default {
         }
 
         await window.ipcRenderer.send('electron-store-set', 'settings', settings)
+        if (this.settingsChanged){
+          this.settingsChanged = false
+          await this.$store.dispatch({ type: 'initBackend' })
+        }
       },
     },
     watch: {
