@@ -15,12 +15,12 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch({ type: 'loadSettings' }).then(async () => {
-      const isConnected = await this.$store.dispatch({ type: 'initBackend' })
-      if (!isConnected){
-        this.callConnecting = true     
-      }
-    })
+    await this.$store.dispatch({ type: 'loadSettings' })
+    
+    const isConnected = await this.$store.dispatch({ type: 'initBackend' })
+    if (!isConnected){
+      this.callConnecting = true     
+    }
   }
 }
 </script>

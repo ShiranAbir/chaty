@@ -57,7 +57,7 @@ const store = createStore({
             message = {id: getters.lastId, type: 'answer', txt:answer}
             commit({ type: 'addMessage', message })
             commit({ type: 'advanceId', message })
-            const isSoundOn = getters.isSoundOn
+            const isSoundOn = getters.settings.shouldRead
             return { answer, isSoundOn }
         },
         async getSpeechUrl({commit}, param) {

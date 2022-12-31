@@ -87,6 +87,7 @@ export default {
         }
 
         await window.ipcRenderer.send('electron-store-set', 'settings', settings)
+        await this.$store.dispatch({ type: 'loadSettings' })
         if (this.settingsChanged){
           this.settingsChanged = false
           await this.$store.dispatch({ type: 'initBackend' })
