@@ -1,8 +1,12 @@
 // Modules to control application life and create native browser window
-const { app, protocol, BrowserWindow } = require('electron')
+const { app, protocol, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const path = require('path')
 
 require('./server')
+const Store = require('electron-store');
+
+//defined the store
+let store = new Store();
 
 const createWindow = () => {
   // Create the browser window.
@@ -29,6 +33,28 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+
+  ipcMain.on('electron-store-set', (event, key, value) => {
+    // Encrypt password using safeStorage
+    if (value.password && safeStorage.isEncryptionAvailable()) {
+      value.password = safeStorage.encryptString(value.password).toString('base64')
+    }
+
+    store.set(key, value)
+
+    event.sender.send('asynchronous-result', true)
+  })
+
+  ipcMain.on('electron-store-get', (event, key) => {
+    const value = store.get(key, {})
+    // Decrypt password using safeStorage
+    if (value.password && safeStorage.isEncryptionAvailable()) {
+      value.password = safeStorage.decryptString(Buffer.from(value.password, 'base64'))
+    }
+
+    event.sender.send('asynchronous-result', value)
   })
 })
 
