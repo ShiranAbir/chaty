@@ -6,7 +6,6 @@
         </div>
         <div class="button-container">
             <button @click="$emit('showSettings', true)">Settings</button>
-            <button :class="getSoundClass" @click="toggleSound">Sound</button>
         </div>
     </div>
   </div>
@@ -26,10 +25,6 @@ export default {
         }
     },
     computed:{
-        getSoundClass():string{
-            const soundClass = this.isSoundOn ? 'active' : 'non-active'
-            return soundClass
-        }
     }
 }
 
